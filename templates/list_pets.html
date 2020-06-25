@@ -17,10 +17,8 @@
         <a href="/{{pet.id}}">
           <img class="pics" src="{{pet.photo_url}}" alt="pet"
         /></a>
-        <div>
-          <a href="/{{pet.id}}"> <span class="petName">{{pet.name}} </span> </a
-          ><b> is available! </b>
-        </div>
+          <a href="/{{pet.id}}"> <span class="petName">{{pet.name}}</span> </a>
+          <b> {% if pet.available%} is available {%else%} is not available{%endif%} </b>
       </div>
       {%endfor%}
     </div>

@@ -28,5 +28,4 @@ class EditPetForm(FlaskForm):
     """Form for editing a pet"""
     photo_url = StringField("Photo Url")
     notes = StringField("Notes")
-    available = RadioField("Available?", choices=[(True, "Yes"), (False, 'No')], validators=[
-                           InputRequired("Please Select True or False")])
+    available = BooleanField("Available?")
