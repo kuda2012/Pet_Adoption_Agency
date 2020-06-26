@@ -3,21 +3,12 @@ from wtforms import StringField, FloatField, BooleanField, IntegerField, RadioFi
 from wtforms.validators import InputRequired, Optional, AnyOf, URL, NumberRange
 
 
-def validate_species(form):
-    """Checks to ensure that entered species is a dog, cat, or porcupine"""
-    if form.species.data == None:
-        return False
-    if form.species.data.lower() not in ["dog", "cat", "porcupine"]:
-        return False
-    else:
-        return True
-
 
 class AddPetForm(FlaskForm):
     """Form for adding a pet"""
     name = StringField("Name", validators=[InputRequired("Name is required")])
     species = StringField("Species", validators=[
-                          InputRequired("Species is required")])
+                          InputRequired("Species is required"), AnyOf(["dog","cat","porcupine"], message="Please enter a dog, cat, or porcupine")])
     photo_url = StringField("Photo Url")
     age = IntegerField("Age", validators=[NumberRange(
         min=0, max=30, message="Please enter an age between 0 and 30"), Optional()])

@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template,  redirect, flash, session, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db,  connect_db, Pet
-from forms import AddPetForm, validate_species, EditPetForm
+from forms import AddPetForm, EditPetForm
 
 
 app = Flask(__name__)
@@ -31,7 +31,9 @@ def list_pets():
 def add_pets():
     """Adds pet to the database if inputs meet requirments"""
     form = AddPetForm()
-    if form.validate_on_submit() and validate_species(form):
+    if form.species.data != None:
+        form.species.data = form.species.data.lower()
+    if form.validate_on_submit():
         name = form.name.data
         species = form.species.data
         url = form.photo_url.data
@@ -46,8 +48,6 @@ def add_pets():
         flash(f"{new_pet.name} added!")
         return redirect(url_for("list_pets"))
     else:
-        if validate_species(form) == False and request.method == "POST":
-            form.species.errors = "Invalid input: species must be a dog, cat, or porcupine"
         return render_template("add_pet.html", form=form)
 
 
